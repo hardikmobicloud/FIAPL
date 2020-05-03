@@ -1,0 +1,958 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      FIAT INDIA AUTOMOBILES PVT. LTD.
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" id="servey-form">
+
+  
+  <div class="form-box" *ngIf="dataPostSuccess===false">
+    <h4 class="sub-title">कोरोना विषाणू  स्वयं मुल्याकंन (Self-Assessment) फॉर्म</h4>
+    <p class="started-text">
+      नोवेल -कोरोना विषाणू <b>(COVID-19)</b> मुळे जी परिस्थिती निर्माण झाली आहे त्यामुळे सर्व कर्मच्याऱ्यांना स्वयं मुल्यांकन फॉर्म (Self-Assessment form) खाली दिल्याप्रमाणे भरवायचा आहे.फियाट इंडिया ऑटोमोबाईल्स प्रा.लिमिटेड,  आपण खाली दिलेल्या उत्तरावरून आपल्याला कंपनीत प्रवेश मिळू शकतो की नाही हे ठरविणार आहे.
+    </p>
+    <form [formGroup]="todoMarathi" (ngSubmit)="submitData()">
+
+
+      <ion-grid>
+        <ion-row>
+          <ion-col size="6">
+            <ion-label>आपण कोणते कर्मचारी आहात ?</ion-label>
+            <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'empnature')" >*</span>
+          </ion-col>
+          <ion-col size="6">
+          
+            <ion-select placeholder="Select One"  formControlName="empnature"  [(ngModel)]="nature_of_employment"  required (ionChange)="changeValidationAgencyName()">
+              <ion-select-option value="FIAPL Employee">FIAPL कर्मचारी.</ion-select-option>
+              <ion-select-option value="Contractual">Contract (कॉन्ट्रॅक्ट)  कर्मचारी.</ion-select-option>
+              
+            </ion-select>
+            
+          </ion-col>
+
+        </ion-row>
+        <ion-row *ngIf="nature_of_employment=='Contractual'">
+          <ion-col size="6">
+            <ion-label>आपल्या कॉन्ट्रॅक्ट कंपनीचे नाव लिहा.</ion-label>
+            <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'agencyname')" >*</span>
+          </ion-col>
+      
+          <ion-col size="6">
+            <ion-input type="text" placeholder="" formControlName="agencyname" [(ngModel)]="name_of_agency"   autocomplete="on" inputmode="text" name="agency" ></ion-input>
+          </ion-col>
+      
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">
+            <ion-label>नाव</ion-label>
+            <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'ename')" >*</span>
+          </ion-col>
+          <ion-col size="6">
+            <ion-item>
+              <ion-input type="text" placeholder="आपले नांव लिहा" formControlName="ename" [(ngModel)]="Ename"   autocomplete="on" inputmode="text" name="name" ></ion-input>
+            </ion-item>
+            
+          </ion-col>
+          
+        </ion-row>
+        <ion-row *ngIf="nature_of_employment=='FIAPL Employee'">
+          <ion-col size="6">
+            <ion-label>Employee ID</ion-label>
+            <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'eid')" >*</span>
+          </ion-col>
+          <ion-col size="6">
+            <ion-item>
+            <ion-input type="text" placeholder="तुमचा आयडी टाका" formControlName="eid" [(ngModel)]="EId"  autocomplete="on" inputmode="text" name="name" (ionBlur)="checkAlreadySubmittedOnID()" required></ion-input>
+          </ion-item>
+          </ion-col>
+
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">
+            <ion-label>Division</ion-label>
+            <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'divisionControl')" >*</span>
+          </ion-col>
+          <ion-col size="6">
+          
+            <ion-select placeholder="
+            एक निवडा" formControlName="divisionControl"  [(ngModel)]="division"  required >
+              <ion-select-option value="CAR">Car</ion-select-option>
+              <ion-select-option value="Corporate">Corporate</ion-select-option>
+              <ion-select-option value="Powertrain">PWT</ion-select-option>
+              <ion-select-option value="Other">Other</ion-select-option>
+            </ion-select>
+            
+          </ion-col>
+
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">
+            <ion-label>डिपार्टमेंट</ion-label>
+            <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'departmentControl')" >*</span>
+          </ion-col>
+          <ion-col size="6">
+            <ion-item>
+            <ion-input type="text" placeholder="आपल्या विभागाचे नाव लिहा" formControlName="departmentControl" [(ngModel)]="department" autocomplete="on" inputmode="text" name="name" required></ion-input>
+            </ion-item>
+          </ion-col>
+
+        </ion-row>
+
+        <ion-row>
+          <ion-col size="6">
+            <ion-label>Emergency contact No(घरच्या नातेवाईकांचा).</ion-label>
+            <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'econtact')" >*</span>
+          </ion-col>
+          <ion-col size="6">
+            <ion-item>
+            <ion-input type="tel" placeholder="क्रमांक लिहा" formControlName="econtact" [(ngModel)]="EMoNumber"  autocomplete="on" inputmode="tel" name="emergency_mobile_number" required></ion-input>
+            </ion-item>
+          </ion-col>
+
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">
+            <ion-label>सध्याचे राहण्याचे ठिकाण -  गावाचे नाव /  शहराचे नाव </ion-label>
+            <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'location')" >*</span>
+          </ion-col>
+          <ion-col size="6">
+            <ion-item>
+            <ion-input type="text" placeholder="गाव / शहराचे नाव लिहा" formControlName="location" [(ngModel)]="VName" autocomplete="on" inputmode="text" name="Vname" required></ion-input>
+            </ion-item>
+          </ion-col>
+
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">
+            <ion-label>
+              जिल्हा</ion-label>
+            <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'districtControl')" >*</span>
+          </ion-col>
+          <ion-col size="6">
+            <ion-item>
+            <ion-input type="text" placeholder="आपले जिल्हा नाव लिहा" formControlName="districtControl" [(ngModel)]="district"  autocomplete="on" inputmode="text" name="district" required></ion-input>
+            </ion-item>
+          </ion-col>
+
+        </ion-row>
+      </ion-grid>
+     <h4 class="question-label">आपल्याला खाली दिल्याप्रमाणे <b>Flu</b> सारखी (तापासारखी) लक्षणे दिसत आहेत का?
+    </h4>
+
+     <ion-grid>
+      <ion-row style="border-bottom: 1px solid #1e2023;">
+        <ion-col size="8">
+          <ion-label>खाली वर्णन केल्याप्रमाणे </ion-label>
+        </ion-col>
+        <ion-col size="2">
+          <ion-label>हो </ion-label>
+        </ion-col>
+        <ion-col size="2">
+          <ion-label>नाही</ion-label>
+        </ion-col>
+
+      </ion-row>
+      <ion-row>
+        <ion-col size="8">
+          <ion-label>ताप  >100F(100F पेक्षा जास्त) </ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'Fever')" >*</span>
+        </ion-col>
+        <ion-col size="2">
+      
+       
+            <input type="radio" formControlName="Fever" [(ngModel)]="self_fever_value"  value="Yes" name="Fever" />
+         
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="Fever" [(ngModel)]="self_fever_value" value="No" name="Fever" />
+        </ion-col>
+
+      </ion-row>
+
+     
+      <ion-row>
+        <ion-col size="8">
+          <ion-label>
+            थरथरणे आणि घाम येणे </ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'sweating')" >*</span>
+        </ion-col>
+        <ion-col size="2">
+      
+       
+            <input type="radio" formControlName="sweating" [(ngModel)]="self_sweating_value"  value="Yes" name="sweating" />
+         
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="sweating" [(ngModel)]="self_sweating_value" value="No" name="sweating" />
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="8">
+          <ion-label>श्व्हाश्वासाचावासास त्रास किंवा श्वासाचावासास करताना छातीत / घशात शिट्टी सारखा आवाज येणे.</ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'wheezing')" >*</span>
+        </ion-col>
+        <ion-col size="2">
+      
+       
+            <input type="radio" formControlName="wheezing" [(ngModel)]="self_wheezing_value"  value="Yes" name="wheezing" />
+         
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="wheezing" [(ngModel)]="self_wheezing_value" value="No" name="wheezing" />
+        </ion-col>
+
+      </ion-row>
+      
+      <ion-row>
+        <ion-col size="8">
+          <ion-label>गुदमरल्यासारखे होणे</ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'Breathlessness')" >*</span>
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="Breathlessness" [(ngModel)]="self_Breathlessness_value"  value="Yes" name="Breathlessness" />
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="Breathlessness" [(ngModel)]="self_Breathlessness_value"  value="No" name="Breathlessness" />
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="8">
+          <ion-label>खोकला येणे</ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'cough')" >*</span>
+        </ion-col>
+        <ion-col size="2">
+      
+       
+            <input type="radio" formControlName="cough" [(ngModel)]="self_cough_value"  value="Yes" name="cough" />
+         
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="cough" [(ngModel)]="self_cough_value" value="No" name="cough" />
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="8">
+          <ion-label>घसा दुखणे </ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'SoreThroat')" >*</span>
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="SoreThroat" [(ngModel)]="self_SoreThroat_value"  value="Yes" name="SoreThroat" />
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="SoreThroat" [(ngModel)]="self_SoreThroat_value"  value="No" name="SoreThroat" />
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="8">
+          <ion-label>हगवण</ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'diarrhoea')" >*</span>
+        </ion-col>
+        <ion-col size="2">
+      
+       
+            <input type="radio" formControlName="diarrhoea" [(ngModel)]="self_diarrhoea_value"  value="Yes" name="diarrhoea" />
+         
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="diarrhoea" [(ngModel)]="self_diarrhoea_value" value="No" name="diarrhoea" />
+        </ion-col>
+
+      </ion-row>
+      
+    </ion-grid>
+    <ion-grid *ngIf="self_diarrhoea_value=='Yes' || self_SoreThroat_value=='Yes' || self_cough_value=='Yes' || self_Breathlessness_value=='Yes' || self_sweating_value=='Yes' || self_fever_value =='Yes' || self_wheezing_value =='Yes'">
+      <ion-row>
+        <ion-col size="6">
+          <ion-label>
+            
+            जर वरीलप्रमाणे एकही लक्षण “हो” असे आहे तर किती दिवसापासून सविस्तर लिहा ?
+
+          </ion-label>
+          </ion-col>
+        <ion-col size="6">
+          <textarea [(ngModel)]="since_when_description" [ngModelOptions]="{standalone: true}"></textarea>
+        </ion-col>
+    
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <ion-label>
+           
+            वरील लक्षणांसाठी आपण डॉक्टरांना भेटला आहात का?
+
+          </ion-label>
+          
+        </ion-col>
+        <ion-col size="6">
+          <ion-select placeholder="Select One" [(ngModel)]="self_consulted_doctor" [ngModelOptions]="{standalone: true}">
+            <ion-select-option value="Yes"> हो </ion-select-option>
+            <ion-select-option value="No">नाही</ion-select-option>
+          
+          </ion-select>
+        </ion-col>
+    
+      </ion-row>
+      <!-- <ion-row *ngIf="self_consulted_doctor=='Yes'">
+        <ion-col size="6">
+          <ion-label>
+            जर वरील प्रश्णाचे  उत्तर “हो”’ असेल तर डॉक्टरांच्या तपासणीत काय आढळले आहे?  सविस्तर लिहा.</ion-label></ion-col>
+        <ion-col size="6">
+          <textarea [(ngModel)]="self_diagnosis_description" [ngModelOptions]="{standalone: true}"></textarea>
+        </ion-col>
+    
+      </ion-row> -->
+    </ion-grid>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6">
+          <ion-label>
+   
+            आपण कोरोना विषाणू <b>(COVID-19)</b> +v व्यक्तीच्या संपर्कात आला होतात  का?
+
+          </ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'contactpositive')" >*</span>
+        </ion-col>
+        <ion-col size="6">
+          <ion-select placeholder="Select One" formControlName="contactpositive" [(ngModel)]="contact_with_someone_who_have_tested">
+            <ion-select-option value="Yes"> हो </ion-select-option>
+            <ion-select-option value="No">नाही</ion-select-option>
+          
+          </ion-select>
+        </ion-col>
+      </ion-row>
+      <!-- <ion-row *ngIf="contact_with_someone_who_have_tested == 'Yes'">
+        <ion-col size="6">
+          <ion-label>जर वरील प्रश्णाचे उत्तर “हो” असेल तर सविस्तर लिहा. (जर प्रश्णाचे उत्तर हो असेल तर  या प्रश्णाचे उत्तर सविस्तर देणे येथे अनिवार्य आहे)</ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'contactpositivedescription')" >*</span>
+        </ion-col>
+        <ion-col size="6">
+          <textarea formControlName="contactpositivedescription"  [(ngModel)]="contact_positive_description"></textarea>
+        </ion-col>
+    
+      </ion-row> -->
+    </ion-grid>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6">
+          <ion-label>
+           
+            आपण <b>(COVID-19)</b> बाधित भागात / विलगीकरण ठिकाण येथे गेला होता का?
+          </ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'visitAffectedArea')" >*</span>
+        </ion-col>
+        <ion-col size="6">
+          <ion-select placeholder="Select One" formControlName="visitAffectedArea" [(ngModel)]="Visited_COVID19_affected_area">
+            <ion-select-option value="Yes"> हो </ion-select-option>
+            <ion-select-option value="No">नाही</ion-select-option>
+          
+          </ion-select>
+        </ion-col>
+      </ion-row>
+      <!-- <ion-row *ngIf="Visited_COVID19_affected_area == 'Yes'">
+        <ion-col size="6">
+          <ion-label>जर वरील प्रश्णाचे उत्तर “हो” असेल तर सविस्तर लिहा. (जर प्रश्णाचे उत्तर हो असेल तर  या प्रश्णाचे उत्तर सविस्तर देणे येथे अनिवार्य आहे)</ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'visitedInfectedAreadescription')" >*</span>
+        </ion-col>
+        <ion-col size="6">
+          <textarea formControlName="visitedInfectedAreadescription"  [(ngModel)]="visited_Infected_Area_description"></textarea>
+        </ion-col>
+    
+      </ion-row> -->
+    </ion-grid>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6">
+          <ion-label>खालीपैकी आपणास जे लागू आहे ते निवडा.</ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'symtomthatapply')" >*</span>
+        </ion-col>
+        <ion-col size="6">
+        
+          <ion-select placeholder="Check all that Apply" multiple="true" formControlName="symtomthatapply"  [(ngModel)]="symtoms_that_apply"  required>
+            <ion-select-option value="Age >60 years">वय  > ६० वर्ष ( ६० पेक्षा जास्त )</ion-select-option>
+            <ion-select-option value="Heart Disease">हृदय विकार.</ion-select-option>
+            <ion-select-option value="Diabetes mellitus">मधूमेह.</ion-select-option>
+            <ion-select-option value="Hypertension">उच्च रक्तदाब</ion-select-option>
+            <ion-select-option value="Chronic lung disease">जुना फुफुसाचे आजार.</ion-select-option>
+            
+            <ion-select-option value="Cancer">कर्करोग.</ion-select-option>
+            
+            <ion-select-option value="kidney diseas">किडनीचा आजार.</ion-select-option>
+            <ion-select-option value="Illness or medicines that decrease immunity">अशी औषधे घेत आहेत की जी रोग प्रतिकारक शक्ती कमी करतात.</ion-select-option>
+            <ion-select-option value="None of the above">वरील पैकी काहीही नाही.</ion-select-option>
+           
+            
+          </ion-select>
+          
+        </ion-col>
+
+      </ion-row>
+    </ion-grid>
+
+    <h4 class="question-label">
+      आपल्या कुटुंबाच्या सदस्यांमध्ये <b>Flu</b> सारखे (तापासारखे) लक्षणे दिसत आहे का?
+</h4>
+
+    <ion-grid>
+      <ion-row style="border-bottom: 1px solid #1e2023;">
+        <ion-col size="8">
+          <ion-label>
+            खाली वर्णन केल्याप्रमाणे  </ion-label>
+        </ion-col>
+        <ion-col size="2">
+          <ion-label> हो </ion-label>
+        </ion-col>
+        <ion-col size="2">
+          <ion-label>नाही</ion-label>
+        </ion-col>
+
+      </ion-row>
+      <ion-row>
+        <ion-col size="8">
+          <ion-label>
+            ताप  >100F(100F पेक्षा जास्त) </ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'family_Fever')" >*</span>
+        </ion-col>
+        <ion-col size="2">
+      
+       
+            <input type="radio" formControlName="family_Fever" [(ngModel)]="family_fever_value" value="Yes" name="family_Fever" />
+         
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="family_Fever" [(ngModel)]="family_fever_value"  value="No" name="family_Fever" />
+        </ion-col>
+     
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="8">
+          <ion-label>थरथरणे आणि घाम येणे</ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'sweating_family')" >*</span>
+        </ion-col>
+        <ion-col size="2">
+      
+       
+            <input type="radio" formControlName="sweating_family" [(ngModel)]="family_sweating_value"  value="Yes" name="sweating_family" />
+         
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="sweating_family" [(ngModel)]="family_sweating_value" value="No" name="sweating_family" />
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="8">
+          <ion-label>श्व्हाश्वासाचावासास त्रास किंवा श्वासाचावासास करताना छातीत / घशात शिट्टी सारखा आवाज येणे.</ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'family_wheezing')" >*</span>
+        </ion-col>
+        <ion-col size="2">
+      
+       
+            <input type="radio" formControlName="family_wheezing" [(ngModel)]="family_wheezing_value"  value="Yes" name="family_wheezing" />
+         
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="family_wheezing" [(ngModel)]="family_wheezing_value" value="No" name="family_wheezing" />
+        </ion-col>
+
+      </ion-row>
+      
+      <ion-row>
+        <ion-col size="8">
+          <ion-label>गुदमरल्यासारखे होणे</ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'Family_Breathlessness')" >*</span>
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="Family_Breathlessness" [(ngModel)]="Family_Breathlessness_value"  value="Yes" name="Family_Breathlessness" />
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="Family_Breathlessness" [(ngModel)]="Family_Breathlessness_value" value="No" name="Family_Breathlessness" />
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="8">
+          <ion-label>खोकला येणे</ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'family_cough')" >*</span>
+        </ion-col>
+        <ion-col size="2">
+      
+       
+            <input type="radio" formControlName="family_cough" [(ngModel)]="family_cough_value"  value="Yes" name="family_cough" />
+         
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="family_cough" [(ngModel)]="family_cough_value" value="No" name="family_cough" />
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="8">
+          <ion-label>घसा दुखणे </ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'Family_SoreThroat')" >*</span>
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="Family_SoreThroat" [(ngModel)]="Family_SoreThroat_value"  value="Yes" name="Family_SoreThroat" />
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="Family_SoreThroat" [(ngModel)]="Family_SoreThroat_value"  value="No" name="Family_SoreThroat" />
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="8">
+          <ion-label>हगवण</ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'family_diarrhoea')" >*</span>
+        </ion-col>
+        <ion-col size="2">
+      
+       
+            <input type="radio" formControlName="family_diarrhoea" [(ngModel)]="family_diarrhoea_value"  value="Yes" name="family_diarrhoea" />
+         
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="family_diarrhoea" [(ngModel)]="family_diarrhoea_value" value="No" name="family_diarrhoea" />
+        </ion-col>
+
+      </ion-row>
+      
+    </ion-grid>
+
+    <ion-grid *ngIf="family_fever_value=='Yes' || family_sweating_value=='Yes' || family_wheezing_value=='Yes' || Family_Breathlessness_value=='Yes' || family_cough_value=='Yes' || Family_SoreThroat_value =='Yes' || family_diarrhoea_value =='Yes' ">
+      <ion-row>
+        <ion-col size="6">
+          <ion-label>
+            जर वरीलप्रमाणे एकही लक्षण “हो” असे आहे तर किती दिवसांपासून? सविस्तर लिहा.</ion-label>
+        </ion-col>
+        <ion-col size="6">
+          <textarea [(ngModel)]="Family_since_when" [ngModelOptions]="{standalone: true}"></textarea>
+        </ion-col>
+    
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <ion-label>
+            कुटुंबातील वरील सदस्य तो किँवा ती आपल्यासोबत राहत आहे का?</ion-label></ion-col>
+        <ion-col size="6">
+          <ion-select placeholder="Select One" [(ngModel)]="family_residing_with_you" [ngModelOptions]="{standalone: true}" >
+            <ion-select-option value="Yes"> हो </ion-select-option>
+            <ion-select-option value="No">नाही</ion-select-option>
+          
+          </ion-select>
+        </ion-col>
+    
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <ion-label>त्यांना डॉक्टरांना दाखवले आहे का?</ion-label>
+        </ion-col>
+        <ion-col size="6">
+          <ion-select placeholder="Select One" [(ngModel)]="family_consulted_doctor" [ngModelOptions]="{standalone: true}">
+            <ion-select-option value="Yes"> हो </ion-select-option>
+            <ion-select-option value="No">नाही</ion-select-option>
+          
+          </ion-select>
+        </ion-col>
+    
+      </ion-row>
+      <!-- <ion-row *ngIf="family_consulted_doctor=='Yes'">
+        <ion-col size="6">
+          <ion-label>
+            वरील प्रश्णाचे उत्तर हो असे असेल तर डॉक्टरांच्या तपासणीत काय आढळले आहे हे सविस्तर लिहा?</ion-label>
+        </ion-col>
+        <ion-col size="6">
+          <textarea [(ngModel)]="Family_diagnosis_description" [ngModelOptions]="{standalone: true}"></textarea>
+        </ion-col>
+    
+      </ion-row> -->
+    </ion-grid>
+
+   <ion-grid>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6">
+          <ion-label>
+           
+            
+            आपल्या कुटुंबातील सदस्य <b>(COVID-19)</b> +Ve  व्यक्तीच्या संपर्कात आले होते का?
+          </ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'familycontactpositive')" >*</span>
+        </ion-col>
+        <ion-col size="6">
+          <ion-select placeholder="Select One" formControlName="familycontactpositive" [(ngModel)]="family_contact_with_someone_who_have_tested">
+            <ion-select-option value="Yes"> हो </ion-select-option>
+            <ion-select-option value="No">नाही</ion-select-option>
+          
+          </ion-select>
+        </ion-col>
+      </ion-row>
+      <!-- <ion-row *ngIf="family_contact_with_someone_who_have_tested == 'Yes'">
+        <ion-col size="6">
+          <ion-label>जर वरील प्रश्णाचे उत्तर हो असे असेल तर सविस्तर लिहा.  ( जर प्रश्णाचे उत्तर हो असेल तर या प्रश्णाचे उत्तर सविस्तर देणे येथे अनिवार्य आहे )</ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'familycontactpositivedescription')" >*</span>
+        </ion-col>
+        <ion-col size="6">
+          <textarea formControlName="familycontactpositivedescription"  [(ngModel)]="family_contact_positive_description"></textarea>
+        </ion-col>
+    
+      </ion-row> -->
+    </ion-grid>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6">
+          <ion-label>
+          
+            
+            आपल्या कुटुंबातील सदस्य <b>(COVID-19)</b> बाधित भागात / विलगीकरण ठिकाण येथे गेला होता का?
+          </ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'familyvisitAffectedArea')" >*</span>
+        </ion-col>
+        <ion-col size="6">
+          <ion-select placeholder="Select One" formControlName="familyvisitAffectedArea" [(ngModel)]="family_Visited_COVID19_affected_area">
+            <ion-select-option value="Yes"> हो </ion-select-option>
+            <ion-select-option value="No">नाही</ion-select-option>
+          
+          </ion-select>
+        </ion-col>
+      </ion-row>
+      <!-- <ion-row *ngIf="family_Visited_COVID19_affected_area == 'Yes'">
+        <ion-col size="6">
+          <ion-label>जर वरील प्रश्णाचे उत्तर हो असे असेल तर सविस्तर लिहा. (जर प्रश्णाचे उत्तर हो असेल तर या प्रश्णाचे उत्तर सविस्तर देणे येथे अनिवार्य आहे)</ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'familyvisitedInfectedAreadescription')" >*</span>
+        </ion-col>
+        <ion-col size="6">
+          <textarea formControlName="familyvisitedInfectedAreadescription"  [(ngModel)]="family_visited_Infected_Area_description"></textarea>
+        </ion-col>
+    
+      </ion-row> -->
+    </ion-grid>
+     <ion-row>
+        <ion-col size="8">
+         <ion-label>
+           
+          तुम्ही स्वतः किंवा तुमच्या कुटुंबातील इतर सदस्य कोरोना विषाणू <b>(COVID-19)</b> च्या तपासणीस  गेला होता का? 
+         </ion-label>
+         <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'test_covid')" >*</span>
+        </ion-col>
+        <ion-col size="4">
+          <ion-select placeholder="Select One" formControlName="test_covid" [(ngModel)]="test_covid_gone">
+            <ion-select-option value="Yes"> हो </ion-select-option>
+            <ion-select-option value="No">नाही</ion-select-option>
+          
+          </ion-select>
+        </ion-col>
+       
+     </ion-row>
+     <!-- <ion-row *ngIf="test_covid_gone == 'Yes'">
+      <ion-col size="6">
+       <ion-label>
+        जर वरील प्रश्णाचे उत्तर हो असे असेल तर सविस्तर लिहा.  ( जर प्रश्णाचे उत्तर हो असेल तर या प्रश्णाचे उत्तर सविस्तर देणे येथे अनिवार्य आहे )
+</ion-label>
+       <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'test_covid_decription')" >*</span>
+      </ion-col>
+      <ion-col size="6">
+        
+          <textarea formControlName="test_covid_decription"  [(ngModel)]="test_covid_gone_description" required></textarea>
+        
+          
+      </ion-col>
+     
+   </ion-row> -->
+   </ion-grid>
+   <ion-grid>
+    <ion-row>
+       <ion-col size="8">
+        <ion-label>
+          लॉकडाऊन च्या कालावधीत आपण घरी /  रूमवर राहिला होतात का?</ion-label>
+        <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'stayhome')" >*</span>
+       </ion-col>
+       <ion-col size="4">
+        <ion-select placeholder="Select One" formControlName="stayhome" [(ngModel)]="stayed_at_home" >
+          <ion-select-option value="Yes"> हो </ion-select-option>
+          <ion-select-option value="No">नाही</ion-select-option>
+        
+        </ion-select>
+      </ion-col>
+
+
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid>
+    <ion-row>
+       <ion-col size="8">
+        <ion-label>
+          आपण आरोग्य सेतू App वर रजिस्टर आहात? </ion-label>
+        <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'arogyasetuApp')" >*</span>
+       </ion-col>
+       <ion-col size="4">
+        <ion-select placeholder="Select One" formControlName="arogyasetuApp" [(ngModel)]="registered_for_Arogyasetu">
+          <ion-select-option value="Yes"> हो </ion-select-option>
+          <ion-select-option value="No">नाही</ion-select-option>
+        
+        </ion-select>
+      </ion-col>
+
+
+    </ion-row>
+    <!-- <ion-row *ngIf="registered_for_Arogyasetu == 'No'">
+      <ion-col size="8">
+       <ion-label>
+        जर वरील प्रश्णाचे उत्तर नाही असेल तर आपण कधी रजिस्टर होणार आहात तारीख लिहावी</ion-label>
+       <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'arogyasetuAppresterdate')" >*</span>
+      </ion-col>
+      <ion-col size="4">
+       
+       <ion-datetime displayFormat="DD/MMM/YYYY" formControlName="arogyasetuAppresterdate" [(ngModel)]="date_of_App_register" min="{{myDate}}"  max="2020-12-12"  placeholder="Select Date"></ion-datetime>
+     </ion-col>
+
+
+   </ion-row> -->
+  </ion-grid>
+
+  <ion-grid>
+    <ion-row>
+       <ion-col size="8">
+        <ion-label>लॉकडाऊन च्या कालावधीत आपण जिथून आला आहात /  जेथे आपण राहात होतात तो कोरोना बाधीत आहे का?</ion-label>
+        <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'higheffectarea')" >*</span>
+       </ion-col>
+       <ion-col size="4">
+        <ion-select placeholder="Select One" formControlName="higheffectarea" [(ngModel)]="is_highly_affected_area">
+          <ion-select-option value="Yes"> हो </ion-select-option>
+          <ion-select-option value="No">नाही</ion-select-option>
+        
+        </ion-select>
+       </ion-col>
+
+    </ion-row>
+
+    <!-- <ion-row *ngIf="is_highly_affected_area=='Yes'">
+      <ion-col size="8">
+       <ion-label>
+        जर वरील प्रश्णाचे उत्तर हो असे असेल तर  प्रशासनाने आपला भाग( एरिया / वसाहत/  इमारत)  विलगीकरणात
+ठेवला होता का?
+</ion-label>
+       <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'quarantineyourresidence')" >*</span>
+      </ion-col>
+      <ion-col size="4">
+       <ion-select placeholder="Select One" formControlName="quarantineyourresidence" [(ngModel)]="government_Quarantine_your_residence" (ionChange)="changeValidationQResidents()">
+         <ion-select-option value="Yes"> हो </ion-select-option>
+         <ion-select-option value="No">नाही</ion-select-option>
+       
+       </ion-select>
+      </ion-col>
+
+   </ion-row> -->
+
+   <!-- <ion-row *ngIf="government_Quarantine_your_residence == 'Yes'">
+    <ion-col size="6">
+     <ion-label>
+      जर प्रश्णाचे उत्तर हो असेल तर खालील प्रश्णाचे उत्तर अनिवार्य आहे.
+आपल्या भागाचे ( एरिया / वसाहत /  इमारत)  नाव पत्ता सविस्तर लिहा.
+</ion-label>
+     <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'quarantineyourresidencedescription')" >*</span>
+    </ion-col>
+    <ion-col size="6">
+      
+        <textarea formControlName="quarantineyourresidencedescription" [(ngModel)]="quarantined_area_name_description" required></textarea>
+      
+        
+    </ion-col>
+   
+ </ion-row> -->
+
+  </ion-grid>
+
+ 
+
+
+  <ion-grid>
+    <ion-row>
+       <ion-col size="8">
+        <ion-label>आपणास कोरोना प्रतिबंधक पद्धतीची माहिती आहे का?</ion-label>
+        <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'preventionmethod')" >*</span>
+       </ion-col>
+       <ion-col size="4">
+        <ion-select placeholder="Select One" formControlName="preventionmethod" [(ngModel)]="aware_of_methods" >
+          <ion-select-option value="Yes"> हो </ion-select-option>
+          <ion-select-option value="No">नाही</ion-select-option>
+          <ion-select-option value="may be">
+            कदाचित</ion-select-option>
+        
+        </ion-select>
+       </ion-col>
+  
+
+
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid>
+    <ion-row>
+       <ion-col size="8">
+        <ion-label>
+          आपले सध्याचे राहण्याचे ठिकाण (उदा: नागपूर)  हे आपल्या कंपनीच्या आसपासच्या ठिकाणापासून (उदा: पुणे) वेगळे आहे का?</ion-label>
+        <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'currentLocation')" >*</span>
+       </ion-col>
+       <ion-col size="4">
+        <ion-select placeholder="Select One" formControlName="currentLocation" [(ngModel)]="is_different_location" (ionChange)="changeValidationDifferentLoc()">
+          <ion-select-option value="Yes"> हो </ion-select-option>
+          <ion-select-option value="No">नाही</ion-select-option>
+         
+        
+        </ion-select>
+       </ion-col>  
+  
+
+
+    </ion-row>
+    <ion-row *ngIf="is_different_location == 'Yes'">
+      <ion-col size="8">
+       <ion-label>जर वरील प्रष्णांचे उत्तर हो असेल तर आपण आपल्या कंपनीच्या ठिकाणी येण्यासाठी कधी प्रवास करू शकता?</ion-label>
+       <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'journeybacklocation')" >*</span>
+      </ion-col>
+      <ion-col size="4">
+        <!-- <input type="date"  [(ngModel)]="date_of_pune_journey"  /> -->
+        <ion-datetime displayFormat="DD/MMM/YYYY"  min="{{myDate}}"  max="2020-12-12" formControlName="journeybacklocation" [(ngModel)]="date_of_pune_journey"  placeholder="Select Date"></ion-datetime>
+      </ion-col>
+
+   </ion-row>
+
+   <ion-row *ngIf="is_different_location == 'Yes'">
+    <ion-col size="8">
+     <ion-label>
+      वर सांगितल्याप्रमाणे,  आपल्या कंपनीच्या ठिकाणी येण्यासाठी कशाने येऊ शकता? </ion-label>
+     <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'travelmode')" >*</span>
+    </ion-col>
+    <ion-col size="4">
+     <ion-select placeholder="Select One" formControlName="travelmode" [(ngModel)]="mode_of_travel" >
+       <ion-select-option value="Bus">
+        बस</ion-select-option>
+       <ion-select-option value="Train">
+        रेल्वे </ion-select-option>
+       <ion-select-option value="Air">
+        विमान</ion-select-option>
+       <ion-select-option value="Rental car">
+        भाड्याने वाहन</ion-select-option>
+       <ion-select-option value="Personal car">
+        स्वतःचे वाहन</ion-select-option>
+       <ion-select-option value="Motorcycle">
+        मोटार सायकल</ion-select-option>
+     
+     </ion-select>
+   </ion-col>
+
+ </ion-row>
+
+  </ion-grid>
+
+   <ion-grid>
+    <ion-row>
+       <ion-col size="8">
+        <ion-label>
+          आपण कार्यालयात / कंपनीत कधी उपस्थित राहू शकता?</ion-label>
+        <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'resumeoffice')" >*</span>
+       </ion-col>
+       <ion-col size="4">
+        <!-- <input type="date" formControlName="resumeoffice" [(ngModel)]="date_of_resume_office" /> -->
+        <ion-datetime displayFormat="DD/MMM/YYYY" formControlName="resumeoffice" min="{{myDate}}"  max="2020-12-12" [(ngModel)]="date_of_resume_office"  placeholder="Select Date"></ion-datetime>
+       </ion-col>
+
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid>
+    <ion-row>
+       <ion-col size="8">
+        <ion-label>
+          कोरोना  विषाणूशी  लढण्यासाठी आपणास FIAPL कडून कुठली मदत हवी आहे का?</ion-label>
+        <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'assistance')" >*</span>
+       </ion-col>
+       <ion-col size="4">
+        <ion-select placeholder="Select One" formControlName="assistance" [(ngModel)]="assistance_need" (ionChange)="changeValidationAssistanceNeed()">
+          <ion-select-option value="Yes"> हो </ion-select-option>
+          <ion-select-option value="No">नाही</ion-select-option>
+        
+        </ion-select>
+      </ion-col>
+
+
+    </ion-row>
+    <ion-row *ngIf="assistance_need == 'Yes'">
+      <ion-col size="6">
+       <ion-label>
+        जर वरील प्रष्णांचे उत्तर हो असेल तर आपणास कोणते सहकार्य हवे आहे? ते सविस्तर लिहा.</ion-label>
+       <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'assistanceDescription')" >*</span>
+      </ion-col>
+      <ion-col size="6">
+       
+           <textarea formControlName="assistanceDescription"  [(ngModel)]="assistance_need_description"></textarea>
+       
+     </ion-col>
+
+
+   </ion-row>
+  </ion-grid>
+
+
+
+  <ion-grid>
+    <ion-row>
+       <ion-col size="6">
+        <ion-label>
+          कोरुना विषाणूशी लढा देण्यासाठी FIAPL आणखी उत्तम काय करू शकते? याबाबत आपले मत लिहा.
+</ion-label>
+        <span style="color: red; padding-top: 0.2rem" *ngIf="todoMarathi.hasError('required', 'suggetionsFIAPL')" >*</span>
+       </ion-col>
+       <ion-col size="6">
+            <textarea formControlName="suggetionsFIAPL" [(ngModel)]="suggetions_on_how_FIAPL_fight" ></textarea>
+      </ion-col>
+
+
+    </ion-row>
+  </ion-grid>
+
+  <h4 class="note" *ngIf="self_fever_value == 'Yes' || self_sweating_value == 'Yes' ||  self_wheezing_value == 'Yes' || self_Breathlessness_value == 'Yes' || self_cough_value == 'Yes' || self_SoreThroat_value == 'Yes'|| self_diarrhoea_value == 'Yes' ||  contact_with_someone_who_have_tested== 'Yes' || Visited_COVID19_affected_area == 'Yes' || (family_fever_value == 'Yes' && this.family_residing_with_you =='Yes') || (family_sweating_value == 'Yes' && this.family_residing_with_you =='Yes') ||  (family_wheezing_value == 'Yes' && this.family_residing_with_you =='Yes') || (Family_Breathlessness_value == 'Yes' && this.family_residing_with_you=='Yes') ||  (family_cough_value == 'Yes' && this.family_residing_with_you=='Yes') || (Family_SoreThroat_value == 'Yes' && this.family_residing_with_you=='Yes') || (family_diarrhoea_value == 'Yes' && this.family_residing_with_you=='Yes') || family_contact_with_someone_who_have_tested == 'Yes' || family_Visited_COVID19_affected_area == 'Yes' || test_covid_gone == 'Yes' || is_highly_affected_area == 'Yes' || is_different_location == 'Yes'">
+    वरील माहिती दिल्याबद्दल आपले धन्यवाद ! FIAPL मेडिकल सेंटर आपल्याला, कंपनी पुन्हा सुरू होण्याच्या प्रक्रियेबद्दल संपर्क करेल. कुठले स्पष्टीकरण हवे असल्यास या मेलवर संपर्क करावा, <span><a href="mailto:Anup.Shinde@fiapl.com?Subject=CBC%20ESR%20Reports" target="_blank">Anup.Shinde@fiapl.com</a></span> किंवा  <span><a href="tel:8007774199">9049055455</a></span> / <span><a href="tel:8007774199">8007774199</a></span> या मोबाईल नंबर वर संपर्क करावा.
+  </h4>
+
+  <h5 class="desclaimer">कर्मचाऱ्यांचे आरोग्य आणि स्वास्थ आपले पहिले प्राधान्य आहे,  त्यामुळे कंपनी, आपला कंपनीतील प्रवेश नाकारण्याचा अधिकार स्वतःकडे राखून ठेवत आहे</h5>
+
+  <button ion-button type="submit" [disabled]="!todoMarathi.valid" class="btn-submit">Submit</button>
+    </form>
+
+  </div>
+  <div class="post-submission" *ngIf="dataPostSuccess===true">
+    <h3>
+      हे सर्वेक्षण पूर्ण करण्यासाठी वेळ दिल्याबद्दल धन्यवाद.</h3>
+    <h4>
+      आमच्या सर्वेक्षणात आपण जितका वेळ घेतला त्याबद्दल आम्ही खूप कौतुक आहोत.आपण सबमिट केलेल्या उत्तरांच्या आधारे FIAPL कंपनीत प्रवेश करण्याचा निर्णय घेईल.
+    </h4>
+
+    <!-- <button  class="success-btn" (click)="closeWindow()">OK</button> -->
+</div>
+</ion-content>
+<ion-footer>
+  <!-- <img src="assets/mobicloud_logo.png" /> -->
+  <h3>
+    Design and Developed By  Mobicloud Technologies Pvt. Ltd.</h3>
+</ion-footer>

@@ -1,0 +1,910 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      FIAT INDIA AUTOMOBILES PVT. LTD.
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" id="servey-form">
+
+  
+  <div class="form-box" *ngIf="dataPostSuccess===false">
+    <h4 class="sub-title">Coronavirus Self-Assessment Form</h4>
+    <p class="started-text">
+      Due to the ongoing and rapidly changing situation with the novel-coronavirus <b>(COVID-19)</b>, we are requiring all employees to fill-out the self-Assessment form below. Fiat India Automobiles Private Limited will make a decision on access to the Company based on the answers provided below.
+    </p>
+    <form [formGroup]="todo" (ngSubmit)="submitData()">
+
+
+      <ion-grid>
+        <ion-row>
+          <ion-col size="6">
+            <ion-label>Nature of employment</ion-label>
+            <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'empnature')" >*</span>
+          </ion-col>
+          <ion-col size="6">
+          
+            <ion-select placeholder="Select One"  formControlName="empnature"  [(ngModel)]="nature_of_employment"  required (ionChange)="changeValidationAgencyName()">
+              <ion-select-option value="FIAPL Employee">FIAPL Employee</ion-select-option>
+              <ion-select-option value="Contractual">Contractual</ion-select-option>
+              
+            </ion-select>
+            
+          </ion-col>
+
+        </ion-row>
+        <ion-row *ngIf="nature_of_employment=='Contractual'">
+          <ion-col size="6">
+            <ion-label>Please provide agency name</ion-label>
+            <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'agencyname')" >*</span>
+          </ion-col>
+         
+          <ion-col size="6">
+            <ion-input type="text" placeholder="" formControlName="agencyname" [(ngModel)]="name_of_agency"   autocomplete="on" inputmode="text" name="agency" ></ion-input>
+          </ion-col>
+      
+        </ion-row>
+
+        <ion-row>
+          <ion-col size="6">
+            <ion-label>Name</ion-label>
+            <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'ename')" >*</span>
+          </ion-col>
+          <ion-col size="6">
+            <ion-item>
+              <ion-input type="text" placeholder="Enter your name" formControlName="ename" [(ngModel)]="Ename"   autocomplete="on" inputmode="text" name="name" ></ion-input>
+            </ion-item>
+            
+          </ion-col>
+          
+        </ion-row>
+        <ion-row *ngIf="nature_of_employment=='FIAPL Employee'">
+          <ion-col size="6">
+            <ion-label>Employee ID</ion-label>
+            <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'eid')" >*</span>
+          </ion-col>
+          <ion-col size="6">
+            <ion-item>
+            <ion-input type="text" placeholder="Enter your Id" formControlName="eid" [(ngModel)]="EId"  autocomplete="on" inputmode="text" name="name" (ionBlur)="checkAlreadySubmittedOnID()" required></ion-input>
+          </ion-item>
+          </ion-col>
+
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">
+            <ion-label>Division</ion-label>
+            <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'divisionControl')" >*</span>
+          </ion-col>
+          <ion-col size="6">
+          
+            <ion-select placeholder="Select One" formControlName="divisionControl"  [(ngModel)]="division"  required >
+              <ion-select-option value="CAR">Car</ion-select-option>
+              <ion-select-option value="Corporate">Corporate</ion-select-option>
+              <ion-select-option value="Powertrain">PWT</ion-select-option>
+              <ion-select-option value="Other">Other</ion-select-option>
+            </ion-select>
+            
+          </ion-col>
+
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">
+            <ion-label>Department</ion-label>
+            <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'departmentControl')" >*</span>
+          </ion-col>
+          <ion-col size="6">
+            <ion-item>
+            <ion-input type="text" placeholder="Enter your department" formControlName="departmentControl" [(ngModel)]="department" autocomplete="on" inputmode="text" name="name" required></ion-input>
+            </ion-item>
+          </ion-col>
+
+        </ion-row>
+
+        <ion-row>
+          <ion-col size="6">
+            <ion-label>Emergency contact No.</ion-label>
+            <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'econtact')" >*</span>
+          </ion-col>
+          <ion-col size="6">
+            <ion-item>
+            <ion-input type="tel" placeholder="Enter number" formControlName="econtact" [(ngModel)]="EMoNumber"  autocomplete="on" inputmode="tel" name="emergency_mobile_number" required></ion-input>
+            </ion-item>
+          </ion-col>
+
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">
+            <ion-label>Present location- Village /City Name</ion-label>
+            <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'location')" >*</span>
+          </ion-col>
+          <ion-col size="6">
+            <ion-item>
+            <ion-input type="text" placeholder="Enter Village/City name" formControlName="location" [(ngModel)]="VName" autocomplete="on" inputmode="text" name="Vname" required></ion-input>
+            </ion-item>
+          </ion-col>
+
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">
+            <ion-label>District</ion-label>
+            <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'districtControl')" >*</span>
+          </ion-col>
+          <ion-col size="6">
+            <ion-item>
+            <ion-input type="text" placeholder="Enter your district" formControlName="districtControl" [(ngModel)]="district"  autocomplete="on" inputmode="text" name="district" required></ion-input>
+            </ion-item>
+          </ion-col>
+
+        </ion-row>
+      </ion-grid>
+     <h4 class="question-label">Do you have any of the following flu-like symptoms?</h4>
+
+     <ion-grid>
+      <ion-row style="border-bottom: 1px solid #1e2023;">
+        <ion-col size="8">
+          <ion-label>Description</ion-label>
+        </ion-col>
+        <ion-col size="2">
+          <ion-label>Yes</ion-label>
+        </ion-col>
+        <ion-col size="2">
+          <ion-label>No</ion-label>
+        </ion-col>
+
+      </ion-row>
+      <ion-row>
+        <ion-col size="8">
+          <ion-label>Fever >100 F </ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'Fever')" >*</span>
+        </ion-col>
+        <ion-col size="2">
+      
+       
+            <input type="radio" formControlName="Fever" [(ngModel)]="self_fever_value"  value="Yes" name="Fever" />
+         
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="Fever" [(ngModel)]="self_fever_value" value="No" name="Fever" />
+        </ion-col>
+
+      </ion-row>
+
+     
+      <ion-row>
+        <ion-col size="8">
+          <ion-label>Shivering and sweating </ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'sweating')" >*</span>
+        </ion-col>
+        <ion-col size="2">
+      
+       
+            <input type="radio" formControlName="sweating" [(ngModel)]="self_sweating_value"  value="Yes" name="sweating" />
+         
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="sweating" [(ngModel)]="self_sweating_value" value="No" name="sweating" />
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="8">
+          <ion-label>Trouble breathing or severe wheezing</ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'wheezing')" >*</span>
+        </ion-col>
+        <ion-col size="2">
+      
+       
+            <input type="radio" formControlName="wheezing" [(ngModel)]="self_wheezing_value"  value="Yes" name="wheezing" />
+         
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="wheezing" [(ngModel)]="self_wheezing_value" value="No" name="wheezing" />
+        </ion-col>
+
+      </ion-row>
+      
+      <ion-row>
+        <ion-col size="8">
+          <ion-label>Breathlessness </ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'Breathlessness')" >*</span>
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="Breathlessness" [(ngModel)]="self_Breathlessness_value"  value="Yes" name="Breathlessness" />
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="Breathlessness" [(ngModel)]="self_Breathlessness_value"  value="No" name="Breathlessness" />
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="8">
+          <ion-label>Cough</ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'cough')" >*</span>
+        </ion-col>
+        <ion-col size="2">
+      
+       
+            <input type="radio" formControlName="cough" [(ngModel)]="self_cough_value"  value="Yes" name="cough" />
+         
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="cough" [(ngModel)]="self_cough_value" value="No" name="cough" />
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="8">
+          <ion-label>Sore Throat </ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'SoreThroat')" >*</span>
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="SoreThroat" [(ngModel)]="self_SoreThroat_value"  value="Yes" name="SoreThroat" />
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="SoreThroat" [(ngModel)]="self_SoreThroat_value"  value="No" name="SoreThroat" />
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="8">
+          <ion-label>Diarrhoea</ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'diarrhoea')" >*</span>
+        </ion-col>
+        <ion-col size="2">
+      
+       
+            <input type="radio" formControlName="diarrhoea" [(ngModel)]="self_diarrhoea_value"  value="Yes" name="diarrhoea" />
+         
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="diarrhoea" [(ngModel)]="self_diarrhoea_value" value="No" name="diarrhoea" />
+        </ion-col>
+
+      </ion-row>
+      
+    </ion-grid>
+    <ion-grid *ngIf="self_diarrhoea_value=='Yes' || self_SoreThroat_value=='Yes' || self_cough_value=='Yes' || self_Breathlessness_value=='Yes' || self_sweating_value=='Yes' || self_fever_value =='Yes' || self_wheezing_value =='Yes'">
+      <ion-row>
+        <ion-col size="6">
+          <ion-label>
+            If any of the above is yes, since when?
+          </ion-label>
+          </ion-col>
+        <ion-col size="6">
+          <textarea [(ngModel)]="since_when_description" [ngModelOptions]="{standalone: true}"></textarea>
+        </ion-col>
+    
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <ion-label>
+            Have you consulted doctor?
+          </ion-label>
+          
+        </ion-col>
+        <ion-col size="6">
+          <ion-select placeholder="Select One" [(ngModel)]="self_consulted_doctor" [ngModelOptions]="{standalone: true}">
+            <ion-select-option value="Yes">Yes</ion-select-option>
+            <ion-select-option value="No">No</ion-select-option>
+          
+          </ion-select>
+        </ion-col>
+    
+      </ion-row>
+      <!-- <ion-row *ngIf="self_consulted_doctor=='Yes'">
+        <ion-col size="6">
+          <ion-label>If yes, what is the diagnosis?</ion-label></ion-col>
+        <ion-col size="6">
+          <textarea [(ngModel)]="self_diagnosis_description" [ngModelOptions]="{standalone: true}"></textarea>
+        </ion-col>
+    
+      </ion-row> -->
+    </ion-grid>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6">
+          <ion-label>
+            Did you get in contact with someone who have tested +ve for CORONA (COVID 19) virus? 
+          </ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'contactpositive')" >*</span>
+        </ion-col>
+        <ion-col size="6">
+          <ion-select placeholder="Select One" formControlName="contactpositive" [(ngModel)]="contact_with_someone_who_have_tested">
+            <ion-select-option value="Yes">Yes</ion-select-option>
+            <ion-select-option value="No">No</ion-select-option>
+          
+          </ion-select>
+        </ion-col>
+      </ion-row>
+      <!-- <ion-row *ngIf="contact_with_someone_who_have_tested == 'Yes'">
+        <ion-col size="6">
+          <ion-label>If Yes, please provide the details?</ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'contactpositivedescription')" >*</span>
+        </ion-col>
+        <ion-col size="6">
+          <textarea formControlName="contactpositivedescription"  [(ngModel)]="contact_positive_description"></textarea>
+        </ion-col>
+    
+      </ion-row> -->
+    </ion-grid>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6">
+          <ion-label>
+            Have you Visited <b>(COVID-19)</b> affected area / Quarantined cluster?  
+          </ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'visitAffectedArea')" >*</span>
+        </ion-col>
+        <ion-col size="6">
+          <ion-select placeholder="Select One" formControlName="visitAffectedArea" [(ngModel)]="Visited_COVID19_affected_area">
+            <ion-select-option value="Yes">Yes</ion-select-option>
+            <ion-select-option value="No">No</ion-select-option>
+          
+          </ion-select>
+        </ion-col>
+      </ion-row>
+      <!-- <ion-row *ngIf="Visited_COVID19_affected_area == 'Yes'">
+        <ion-col size="6">
+          <ion-label>If Yes, please provide the details?</ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'visitedInfectedAreadescription')" >*</span>
+        </ion-col>
+        <ion-col size="6">
+          <textarea formControlName="visitedInfectedAreadescription"  [(ngModel)]="visited_Infected_Area_description"></textarea>
+        </ion-col>
+    
+      </ion-row> -->
+    </ion-grid>
+
+
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6">
+          <ion-label>Is any of below is applicable? Check all that apply.</ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'symtomthatapply')" >*</span>
+        </ion-col>
+        <ion-col size="6">
+        
+          <ion-select placeholder="Check all that Apply" multiple="true" formControlName="symtomthatapply"  [(ngModel)]="symtoms_that_apply"  required>
+            <ion-select-option value="Age >60 years">Age >60 years</ion-select-option>
+            <ion-select-option value="Heart Disease">Heart Disease</ion-select-option>
+            <ion-select-option value="Hypertension">Hypertension</ion-select-option>
+            <ion-select-option value="Diabetes mellitus">Diabetes mellitus</ion-select-option>
+            
+            <ion-select-option value="Chronic lung disease">Chronic lung disease</ion-select-option>
+            <ion-select-option value="Cancer">Cancer</ion-select-option>
+            <ion-select-option value="kidney diseas">kidney diseas</ion-select-option>
+            <ion-select-option value="Illness or medicines that decrease immunity">Illness or medicines that decrease immunity</ion-select-option>
+            <ion-select-option value="None of the above">None of the above</ion-select-option>
+           
+            
+          </ion-select>
+          
+        </ion-col>
+
+      </ion-row>
+    </ion-grid>
+
+    <h4 class="question-label">Do you have any of the following flu-like symptoms within Family?</h4>
+
+    <ion-grid>
+      <ion-row style="border-bottom: 1px solid #1e2023;">
+        <ion-col size="8">
+          <ion-label>Description</ion-label>
+        </ion-col>
+        <ion-col size="2">
+          <ion-label>Yes</ion-label>
+        </ion-col>
+        <ion-col size="2">
+          <ion-label>No</ion-label>
+        </ion-col>
+
+      </ion-row>
+      <ion-row>
+        <ion-col size="8">
+          <ion-label>Fever > 100 F</ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'family_Fever')" >*</span>
+        </ion-col>
+        <ion-col size="2">
+      
+       
+            <input type="radio" formControlName="family_Fever" [(ngModel)]="family_fever_value" value="Yes" name="family_Fever" />
+         
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="family_Fever" [(ngModel)]="family_fever_value"  value="No" name="family_Fever" />
+        </ion-col>
+     
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="8">
+          <ion-label>Shivering and sweating </ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'sweating_family')" >*</span>
+        </ion-col>
+        <ion-col size="2">
+      
+       
+            <input type="radio" formControlName="sweating_family" [(ngModel)]="family_sweating_value"  value="Yes" name="sweating_family" />
+         
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="sweating_family" [(ngModel)]="family_sweating_value" value="No" name="sweating_family" />
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="8">
+          <ion-label>Trouble breathing or severe wheezing</ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'family_wheezing')" >*</span>
+        </ion-col>
+        <ion-col size="2">
+      
+       
+            <input type="radio" formControlName="family_wheezing" [(ngModel)]="family_wheezing_value"  value="Yes" name="family_wheezing" />
+         
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="family_wheezing" [(ngModel)]="family_wheezing_value" value="No" name="family_wheezing" />
+        </ion-col>
+
+      </ion-row>
+      
+      <ion-row>
+        <ion-col size="8">
+          <ion-label>Breathlessness </ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'Family_Breathlessness')" >*</span>
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="Family_Breathlessness" [(ngModel)]="Family_Breathlessness_value"  value="Yes" name="Family_Breathlessness" />
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="Family_Breathlessness" [(ngModel)]="Family_Breathlessness_value" value="No" name="Family_Breathlessness" />
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="8">
+          <ion-label>Cough</ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'family_cough')" >*</span>
+        </ion-col>
+        <ion-col size="2">
+      
+       
+            <input type="radio" formControlName="family_cough" [(ngModel)]="family_cough_value"  value="Yes" name="family_cough" />
+         
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="family_cough" [(ngModel)]="family_cough_value" value="No" name="family_cough" />
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="8">
+          <ion-label>Sore Throat </ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'Family_SoreThroat')" >*</span>
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="Family_SoreThroat" [(ngModel)]="Family_SoreThroat_value"  value="Yes" name="Family_SoreThroat" />
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="Family_SoreThroat" [(ngModel)]="Family_SoreThroat_value"  value="No" name="Family_SoreThroat" />
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="8">
+          <ion-label>Diarrhoea</ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'family_diarrhoea')" >*</span>
+        </ion-col>
+        <ion-col size="2">
+      
+       
+            <input type="radio" formControlName="family_diarrhoea" [(ngModel)]="family_diarrhoea_value"  value="Yes" name="family_diarrhoea" />
+         
+        </ion-col>
+        <ion-col size="2">
+          <input type="radio" formControlName="family_diarrhoea" [(ngModel)]="family_diarrhoea_value" value="No" name="family_diarrhoea" />
+        </ion-col>
+
+      </ion-row>
+      
+    </ion-grid>
+
+    <ion-grid *ngIf="family_fever_value=='Yes' || family_sweating_value=='Yes' || family_wheezing_value=='Yes' || Family_Breathlessness_value=='Yes' || family_cough_value=='Yes' || Family_SoreThroat_value =='Yes' || family_diarrhoea_value =='Yes' ">
+      <ion-row>
+        <ion-col size="6">
+          <ion-label>If any of the above is yes, to whom and since when?</ion-label>
+        </ion-col>
+        <ion-col size="6">
+          <textarea [(ngModel)]="Family_since_when" [ngModelOptions]="{standalone: true}"></textarea>
+        </ion-col>
+    
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <ion-label>Is He/She residing with you?</ion-label></ion-col>
+        <ion-col size="6">
+          <ion-select placeholder="Select One" [(ngModel)]="family_residing_with_you" [ngModelOptions]="{standalone: true}" >
+            <ion-select-option value="Yes">Yes</ion-select-option>
+            <ion-select-option value="No">No</ion-select-option>
+          
+          </ion-select>
+        </ion-col>
+    
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <ion-label>Have you consulted doctor?</ion-label>
+        </ion-col>
+        <ion-col size="6">
+          <ion-select placeholder="Select One" [(ngModel)]="family_consulted_doctor" [ngModelOptions]="{standalone: true}">
+            <ion-select-option value="Yes">Yes</ion-select-option>
+            <ion-select-option value="No">No</ion-select-option>
+          
+          </ion-select>
+        </ion-col>
+    
+      </ion-row>
+      <!-- <ion-row *ngIf="family_consulted_doctor=='Yes'">
+        <ion-col size="6">
+          <ion-label>If yes, what is the diagnosis?</ion-label>
+        </ion-col>
+        <ion-col size="6">
+          <textarea [(ngModel)]="Family_diagnosis_description" [ngModelOptions]="{standalone: true}"></textarea>
+        </ion-col>
+    
+      </ion-row> -->
+    </ion-grid>
+
+   <ion-grid>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6">
+          <ion-label>
+            Did your family members get in contact with someone who have tested +ve for CORONA (COVID 19) virus?
+          </ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'familycontactpositive')" >*</span>
+        </ion-col>
+        <ion-col size="6">
+          <ion-select placeholder="Select One" formControlName="familycontactpositive" [(ngModel)]="family_contact_with_someone_who_have_tested">
+            <ion-select-option value="Yes">Yes</ion-select-option>
+            <ion-select-option value="No">No</ion-select-option>
+          
+          </ion-select>
+        </ion-col>
+      </ion-row>
+      <!-- <ion-row *ngIf="family_contact_with_someone_who_have_tested == 'Yes'">
+        <ion-col size="6">
+          <ion-label>If Yes, please provide the details?</ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'familycontactpositivedescription')" >*</span>
+        </ion-col>
+        <ion-col size="6">
+          <textarea formControlName="familycontactpositivedescription"  [(ngModel)]="family_contact_positive_description"></textarea>
+        </ion-col>
+    
+      </ion-row> -->
+    </ion-grid>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6">
+          <ion-label>
+            Have your family members visited <b>(COVID-19)</b> affected area / quarantined cluster?  
+          </ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'familyvisitAffectedArea')" >*</span>
+        </ion-col>
+        <ion-col size="6">
+          <ion-select placeholder="Select One" formControlName="familyvisitAffectedArea" [(ngModel)]="family_Visited_COVID19_affected_area">
+            <ion-select-option value="Yes">Yes</ion-select-option>
+            <ion-select-option value="No">No</ion-select-option>
+          
+          </ion-select>
+        </ion-col>
+      </ion-row>
+      <!-- <ion-row *ngIf="family_Visited_COVID19_affected_area == 'Yes'">
+        <ion-col size="6">
+          <ion-label>If Yes, please provide the details?</ion-label>
+          <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'familyvisitedInfectedAreadescription')" >*</span>
+        </ion-col>
+        <ion-col size="6">
+          <textarea formControlName="familyvisitedInfectedAreadescription"  [(ngModel)]="family_visited_Infected_Area_description"></textarea>
+        </ion-col>
+    
+      </ion-row> -->
+    </ion-grid>
+     <ion-row>
+        <ion-col size="8">
+         <ion-label>Have you or your family members had gone for test of CORONA (COVID 19) Virus?</ion-label>
+         <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'test_covid')" >*</span>
+        </ion-col>
+        <ion-col size="4">
+          <ion-select placeholder="Select One" formControlName="test_covid" [(ngModel)]="test_covid_gone">
+            <ion-select-option value="Yes">Yes</ion-select-option>
+            <ion-select-option value="No">No</ion-select-option>
+          
+          </ion-select>
+        </ion-col>
+       
+     </ion-row>
+     <!-- <ion-row *ngIf="test_covid_gone == 'Yes'">
+      <ion-col size="6">
+       <ion-label>If yes, please provide the details</ion-label>
+       <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'test_covid_decription')" >*</span>
+      </ion-col>
+      <ion-col size="6">
+        
+          <textarea formControlName="test_covid_decription"  [(ngModel)]="test_covid_gone_description" required></textarea>
+        
+          
+      </ion-col>
+     
+   </ion-row> -->
+   </ion-grid>
+   <ion-grid>
+    <ion-row>
+       <ion-col size="8">
+        <ion-label>During lockdown did you stay at home?</ion-label>
+        <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'stayhome')" >*</span>
+       </ion-col>
+       <ion-col size="4">
+        <ion-select placeholder="Select One" formControlName="stayhome" [(ngModel)]="stayed_at_home" >
+          <ion-select-option value="Yes">Yes</ion-select-option>
+          <ion-select-option value="No">No</ion-select-option>
+        
+        </ion-select>
+      </ion-col>
+
+
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid>
+    <ion-row>
+       <ion-col size="8">
+        <ion-label>Have you registered for Arogyasetu App? </ion-label>
+        <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'arogyasetuApp')" >*</span>
+       </ion-col>
+       <ion-col size="4">
+        <ion-select placeholder="Select One" formControlName="arogyasetuApp" [(ngModel)]="registered_for_Arogyasetu">
+          <ion-select-option value="Yes">Yes</ion-select-option>
+          <ion-select-option value="No">No</ion-select-option>
+        
+        </ion-select>
+      </ion-col>
+
+
+    </ion-row>
+    <!-- <ion-row *ngIf="registered_for_Arogyasetu == 'No'">
+      <ion-col size="8">
+       <ion-label>If no, when are you planning to register for it?</ion-label>
+       <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'arogyasetuAppresterdate')" >*</span>
+      </ion-col>
+      <ion-col size="4">
+     
+       <ion-datetime displayFormat="DD/MMM/YYYY" formControlName="arogyasetuAppresterdate" [(ngModel)]="date_of_App_register" min="{{myDate}}"  max="2020-12-12"  placeholder="Select Date"></ion-datetime>
+     </ion-col>
+
+
+   </ion-row> -->
+  </ion-grid>
+
+  <ion-grid>
+    <ion-row>
+       <ion-col size="8">
+        <ion-label>During lockdown the place where you are / were residing is a highly affected area?</ion-label>
+        <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'higheffectarea')" >*</span>
+       </ion-col>
+       <ion-col size="4">
+        <ion-select placeholder="Select One" formControlName="higheffectarea" [(ngModel)]="is_highly_affected_area">
+          <ion-select-option value="Yes">Yes</ion-select-option>
+          <ion-select-option value="No">No</ion-select-option>
+        
+        </ion-select>
+       </ion-col>
+
+    </ion-row>
+
+    <!-- <ion-row *ngIf="is_highly_affected_area=='Yes'">
+      <ion-col size="8">
+       <ion-label>If Yes, did the government Quarantine your residence (area / locality / society)?</ion-label>
+       <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'quarantineyourresidence')" >*</span>
+      </ion-col>
+      <ion-col size="4">
+       <ion-select placeholder="Select One" formControlName="quarantineyourresidence" [(ngModel)]="government_Quarantine_your_residence" (ionChange)="changeValidationQResidents()">
+         <ion-select-option value="Yes">Yes</ion-select-option>
+         <ion-select-option value="No">No</ion-select-option>
+       
+       </ion-select>
+      </ion-col>
+
+   </ion-row> -->
+
+   <!-- <ion-row *ngIf="government_Quarantine_your_residence == 'Yes'">
+    <ion-col size="6">
+     <ion-label>If Yes, please mention the name of the area</ion-label>
+     <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'quarantineyourresidencedescription')" >*</span>
+    </ion-col>
+    <ion-col size="6">
+      
+        <textarea formControlName="quarantineyourresidencedescription" [(ngModel)]="quarantined_area_name_description" required></textarea>
+      
+        
+    </ion-col>
+   
+ </ion-row> -->
+
+  </ion-grid>
+
+ 
+
+
+  <ion-grid>
+    <ion-row>
+       <ion-col size="8">
+        <ion-label>Are you aware of Corona prevention methods?</ion-label>
+        <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'preventionmethod')" >*</span>
+       </ion-col>
+       <ion-col size="4">
+        <ion-select placeholder="Select One" formControlName="preventionmethod" [(ngModel)]="aware_of_methods" >
+          <ion-select-option value="Yes">Yes</ion-select-option>
+          <ion-select-option value="No">No</ion-select-option>
+          <ion-select-option value="may be">May be</ion-select-option>
+        
+        </ion-select>
+       </ion-col>
+  
+
+
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid>
+    <ion-row>
+       <ion-col size="8">
+        <ion-label>Is your current location (for e.g. Nagpur) different than base location (Pune)?</ion-label>
+        <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'currentLocation')" >*</span>
+       </ion-col>
+       <ion-col size="4">
+        <ion-select placeholder="Select One" formControlName="currentLocation" [(ngModel)]="is_different_location" (ionChange)="changeValidationDifferentLoc()">
+          <ion-select-option value="Yes">Yes</ion-select-option>
+          <ion-select-option value="No">No</ion-select-option>
+         
+        
+        </ion-select>
+       </ion-col>  
+  
+
+
+    </ion-row>
+    <ion-row *ngIf="is_different_location == 'Yes'">
+      <ion-col size="8">
+       <ion-label>If yes then when are you going to start your journey back to base location?</ion-label>
+       <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'journeybacklocation')" >*</span>
+      </ion-col>
+      <ion-col size="4">
+        <!-- <input type="date"  [(ngModel)]="date_of_pune_journey"  /> -->
+        <ion-datetime displayFormat="DD/MMM/YYYY"  min="{{myDate}}"  max="2020-12-12" formControlName="journeybacklocation" [(ngModel)]="date_of_pune_journey"  placeholder="Select Date"></ion-datetime>
+      </ion-col>
+
+   </ion-row>
+
+   <ion-row *ngIf="is_different_location == 'Yes'">
+    <ion-col size="8">
+     <ion-label>As indicated in above question whenever you start your journey back to base location, what would be the mode of travel? </ion-label>
+     <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'travelmode')" >*</span>
+    </ion-col>
+    <ion-col size="4">
+     <ion-select placeholder="Select One" formControlName="travelmode" [(ngModel)]="mode_of_travel" >
+       <ion-select-option value="Bus">Bus</ion-select-option>
+       <ion-select-option value="Train">Train</ion-select-option>
+       <ion-select-option value="Air">Air</ion-select-option>
+       <ion-select-option value="Rental car">Rental car</ion-select-option>
+       <ion-select-option value="Personal car">Personal car</ion-select-option>
+       <ion-select-option value="Motorcycle">Motorcycle</ion-select-option>
+     
+     </ion-select>
+   </ion-col>
+
+ </ion-row>
+
+  </ion-grid>
+
+   <ion-grid>
+    <ion-row>
+       <ion-col size="8">
+        <ion-label>When are you going to resume office? </ion-label>
+        <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'resumeoffice')" >*</span>
+       </ion-col>
+       <ion-col size="4">
+        <!-- <input type="date" formControlName="resumeoffice" [(ngModel)]="date_of_resume_office" /> -->
+        <ion-datetime displayFormat="DD/MMM/YYYY" formControlName="resumeoffice" min="{{myDate}}"  max="2020-12-12" [(ngModel)]="date_of_resume_office"  placeholder="Select Date"></ion-datetime>
+       </ion-col>
+
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid>
+    <ion-row>
+       <ion-col size="8">
+        <ion-label>Do you need any type of assistance from FIAPL to fight Corona virus?</ion-label>
+        <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'assistance')" >*</span>
+       </ion-col>
+       <ion-col size="4">
+        <ion-select placeholder="Select One" formControlName="assistance" [(ngModel)]="assistance_need" (ionChange)="changeValidationAssistanceNeed()">
+          <ion-select-option value="Yes">Yes</ion-select-option>
+          <ion-select-option value="No">No</ion-select-option>
+        
+        </ion-select>
+      </ion-col>
+
+
+    </ion-row>
+    <ion-row *ngIf="assistance_need == 'Yes'">
+      <ion-col size="6">
+       <ion-label>If yes, kindly mention what kind of assistance required?</ion-label>
+       <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'assistanceDescription')" >*</span>
+      </ion-col>
+      <ion-col size="6">
+       
+           <textarea formControlName="assistanceDescription"  [(ngModel)]="assistance_need_description"></textarea>
+       
+     </ion-col>
+
+
+   </ion-row>
+  </ion-grid>
+
+
+
+  <ion-grid>
+    <ion-row>
+       <ion-col size="6">
+        <ion-label>Please mention your suggetions on how FIAPL can fight Corona virus more effectively?</ion-label>
+        <span style="color: red; padding-top: 0.2rem" *ngIf="todo.hasError('required', 'suggetionsFIAPL')" >*</span>
+       </ion-col>
+       <ion-col size="6">
+            <textarea formControlName="suggetionsFIAPL" [(ngModel)]="suggetions_on_how_FIAPL_fight" ></textarea>
+      </ion-col>
+
+
+    </ion-row>
+  </ion-grid>
+
+  <h4 class="note" *ngIf="self_fever_value == 'Yes' || self_sweating_value == 'Yes' ||  self_wheezing_value == 'Yes' || self_Breathlessness_value == 'Yes' || self_cough_value == 'Yes' || self_SoreThroat_value == 'Yes'|| self_diarrhoea_value == 'Yes' ||  contact_with_someone_who_have_tested== 'Yes' || Visited_COVID19_affected_area == 'Yes' || (family_fever_value == 'Yes' && this.family_residing_with_you =='Yes') || (family_sweating_value == 'Yes' && this.family_residing_with_you =='Yes') ||  (family_wheezing_value == 'Yes' && this.family_residing_with_you =='Yes') || (Family_Breathlessness_value == 'Yes' && this.family_residing_with_you=='Yes') ||  (family_cough_value == 'Yes' && this.family_residing_with_you=='Yes') || (Family_SoreThroat_value == 'Yes' && this.family_residing_with_you=='Yes') || (family_diarrhoea_value == 'Yes' && this.family_residing_with_you=='Yes') || family_contact_with_someone_who_have_tested == 'Yes' || family_Visited_COVID19_affected_area == 'Yes' || test_covid_gone == 'Yes' || is_highly_affected_area == 'Yes' || is_different_location == 'Yes'">Thank you for your time. FIAPL Occupational Health Center will contact you for resumption process. For any clarification contact on <span><a href="mailto:Anup.Shinde@fiapl.com?Subject=CBC%20ESR%20Reports" target="_blank">Anup.Shinde@fiapl.com</a></span> or <span><a href="tel:8007774199">9049055455</a></span> / <span><a href="tel:8007774199">8007774199</a></span>.</h4>
+
+
+
+  <h5 class="desclaimer">The health and wellbeing of our employee is our first priority therefore Company reserves the right to deny entry in the premises.</h5>
+
+  <button ion-button type="submit" [disabled]="!todo.valid" class="btn-submit">Submit</button>
+    </form>
+
+  </div>
+  <div class="post-submission" *ngIf="dataPostSuccess===true">
+    <h3>Thank you for taking the time to complete this survey.</h3>
+    <h4>
+      We are very appreciative of the time you have taken to assist in our survey. 
+    </h4>
+    <h4>
+      FIAPL will make a decision on access to the company based on the answers you have submitted.
+    </h4>
+    <!-- <button  class="success-btn" (click)="closeWindow()">OK</button> -->
+</div>
+</ion-content>
+<ion-footer>
+  <!-- <img src="assets/mobicloud_logo.png" /> -->
+  <h3>
+    Design and Developed By  Mobicloud Technologies Pvt. Ltd.</h3>
+</ion-footer>
+     
